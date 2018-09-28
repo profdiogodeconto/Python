@@ -34,7 +34,7 @@ def calcular_fitness(vetor):
 
 def main():
     vetor = converter_csv_para_vetor()
-    tamanho_populacao = 5
+    tamanho_populacao = 6
     quantidade_genes = len(vetor[0]) - 1    
     cromossomos = gerar_cromossomos(tamanho_populacao,quantidade_genes)
     classificador_j48 = tree.DecisionTreeClassifier()
@@ -52,16 +52,20 @@ def main():
         alvo_predicao_j48 = classificador_j48.predict(dados_validacao)
 
         score = round(metrics.accuracy_score(alvo_validacao,alvo_predicao_j48), 2)
-        f = cromossomo.tolist()
-        f.append(score)
-        fitness.append(f)
+        # f = cromossomo.tolist()
+        # f.append(score)
+        fitness.append(score)
         print("Score: ", score)
         # Ordenar
-        tamanho  = len(f) - 1
-        fitness.sort(key= lambda x:x[tamanho])
-    for c in cromossomos:
-        print(GA.voto_majoritario(fitness))
-
+        # tamanho  = len(f) - 1
+        # fitness.sort(key= lambda x:x[tamanho])
+    nova_populacao = []
+    for c in range(len(cromossomos)):
+        index = GA.voto_majoritario(fitness)
+        fitness = numpy.delete(fitness,index,0)
+        nova_populacao.append(cromossomos[index])
+    
+    GA.crossover(nova_populacao)
 
     
 
