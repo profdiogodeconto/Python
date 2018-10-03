@@ -22,10 +22,11 @@ def crossover(array):
         r = 0
         while(r == 0):
             r = random.randint(0, len(nova_populacao[i]) - 1)
-        primeiro_cromossomo = nova_populacao[i - i][:r]
+        index_anterior = i - 1
+        primeiro_cromossomo = nova_populacao[index_anterior][:r]
         primeiro_cromossomo.extend(nova_populacao[i][r:])
         segundo_cromossomo = nova_populacao[i][:r]
-        segundo_cromossomo.extend(nova_populacao[i - i][r:])
+        segundo_cromossomo.extend(nova_populacao[index_anterior][r:])
         nova_populacao.append(primeiro_cromossomo)
         nova_populacao.append(segundo_cromossomo)
         r = 0
