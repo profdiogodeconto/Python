@@ -42,9 +42,9 @@ def main():
     classificador_j48 = tree.DecisionTreeClassifier()
     
     dados, alvo = dividir_dados_alvo(vetor)
-    dados_treino_completo, dados_teste_validacao_completo, alvo_treino, alvo_teste_validacao = train_test_split(dados, alvo, test_size=0.5, random_state = 0, stratify=alvo)
-    dados_teste_completo, dados_validacao_completo, alvo_teste, alvo_validacao  = train_test_split(dados_teste_validacao_completo, alvo_teste_validacao, test_size=0.5, stratify=alvo_teste_validacao)    
-
+    dados_treino_completo, dados_validacao_completo, alvo_treino, alvo_validacao = train_test_split(dados, alvo, test_size=0.3, random_state = 0, stratify=alvo)
+    # dados_teste_completo, dados_validacao_completo, alvo_teste, alvo_validacao  = train_test_split(dados_teste_validacao_completo, alvo_teste_validacao, test_size=0.5, stratify=alvo_teste_validacao)    
+    
     fitness = []
     print("\n########### Geracao  0 ###########\n")
     for cromossomo in cromossomos:
@@ -69,8 +69,8 @@ def main():
             nova_populacao.append(cromossomos[index])
         
         cromossomos = GA.crossover(nova_populacao)                   
-        cromossomos = GA.mutacao(cromossomos, 0.05)       
-
+        cromossomos = GA.mutacao(cromossomos, 0.05)
+       
         fitness = []       
         for cromossomo in cromossomos:
             dados_treino = dados_treino_completo
@@ -85,19 +85,8 @@ def main():
             print("Score: ", score)
         cromossomos, fitness = GA.cortar_populacao(cromossomos, fitness)
 
-
     cromossomo = cromossomos[fitness.index(max(fitness))]
-    print("\nBest Accuracy: " + str(max(fitness)))
-
-    dados_treino = dados_treino_completo
-    dados_validacao = dados_validacao_completo
-    dados_treino = remover_atributos(dados_treino, cromossomo)
-    dados_validacao = remover_atributos(dados_validacao, cromossomo)
-    classificador_j48 = classificador_j48.fit(dados_treino, alvo_treino)
-    alvo_predicao_j48 = classificador_j48.predict(dados_validacao)
-
-    print ("\nMatriz de confusao")
-    print (metrics.confusion_matrix(alvo_validacao,alvo_predicao_j48),"\n")
+    print("Best Accuracy: " + str(max(fitness)))
 
 main()
 
@@ -107,7 +96,9 @@ main()
 # print ("Accuracy J48: {0:.3f}".format(metrics.accuracy_score(alvo_validacao,alvo_predicao_bagging)),"\n") 
 
 
-
+# print ("Confusion matrix")
+# print (metrics.confusion_matrix(alvo_validacao,alvo_predicao),"\n")
+# # print(classificador_j48.score(dados_validacao,alvo_validacao))
 
 # Ordenar
 # tamanho  = len(f) - 1
