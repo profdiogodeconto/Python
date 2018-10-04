@@ -67,7 +67,7 @@ def main():
             cromossomos = numpy.delete(cromossomos, index, 0)
         
         cromossomos = GA.crossover(nova_populacao)                   
-        cromossomos = GA.mutacao(cromossomos, 0.05)       
+        cromossomos = GA.mutacao(cromossomos, 0.01)       
 
         fitness = []       
         for cromossomo in cromossomos:
